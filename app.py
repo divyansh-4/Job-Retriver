@@ -4,46 +4,24 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 import pickle
 import numpy as np
-
+from helper import *
 
 app = Flask(__name__)
 
 # Load the trained model and other necessary objects
-with open('model.pkl', 'rb') as f:
+with open('./models/model.pkl', 'rb') as f:
     model = pickle.load(f)
 
-with open('tfidf.pkl', 'rb') as f:
+with open('./models/tfidf.pkl', 'rb') as f:
     tfidf = pickle.load(f)
 
-# with open('encoder.pkl', 'rb') as f:
-#     encoder = pickle.load(f)
-label_encoder = {'Data Science': 0,
- 'HR': 1,
- 'Advocate': 2,
- 'Arts': 3,
- 'Web Designing': 4,
- 'Mechanical Engineer': 5,
- 'Sales': 6,
- 'Health and fitness': 7,
- 'Civil Engineer': 8,
- 'Java Developer': 9,
- 'Business Analyst': 10,
- 'SAP Developer': 11,
- 'Automation Testing': 12,
- 'Electrical Engineering': 13,
- 'Operations Manager': 14,
- 'Python Developer': 15,
- 'DevOps Engineer': 16,
- 'Network Security Engineer': 17,
- 'PMO': 18,
- 'Database': 19,
- 'Hadoop': 20,
- 'ETL Developer': 21,
- 'DotNet Developer': 22,
- 'Blockchain': 23,
- 'Testing': 24}
+def parse_pdf(resume_file):
+    text = ""
+    with pdfplumber.open(resume_file) as pdf:
+        for page in pdf.pages:
+            text += page.extract_text()
+    return text
 
-reverse_label_encoder = {v: k for k, v in label_encoder.items()}
 
 # Define a route for the home page
 @app.route('/')
@@ -54,7 +32,15 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     # Get input text from the form
-    text = request.form['text']
+    # Check if a file was uploaded
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file uploaded'})
+    
+
+    file = request.files['file']
+
+    text = parse_pdf(file)
+    # text = request.form['text']
 
     # Preprocess the input text
     processed_text = preprocess_text(text)
@@ -69,12 +55,6 @@ def predict():
     # predicted_category = encoder.inverse_transform(prediction)[0]
     prediction = int(prediction[0])
     return jsonify({'category': reverse_label_encoder[prediction]})
-
-# Preprocessing function
-def preprocess_text(text):
-    # Implement your preprocessing logic here
-    # Example: lowercase, remove punctuation, etc.
-    return text.lower()
 
 if __name__ == '__main__':
     app.run(debug=True)

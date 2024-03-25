@@ -49,12 +49,15 @@ def predict():
     vectorized_text = tfidf.transform([processed_text])
 
     # Make prediction using the trained model
-    prediction = model.predict(vectorized_text)
-
+    # prediction = model.predict(vectorized_text)
+    prediction = model.predict_proba(vectorized_text)[0]
+    labels = np.argsort(-prediction)
     # Decode the predicted label
     # predicted_category = encoder.inverse_transform(prediction)[0]
-    prediction = int(prediction[0])
-    return jsonify({'category': reverse_label_encoder[prediction]})
+    # prediction = int(prediction[0])
+    temp = [[reverse_label_encoder[label], prediction[label]] for label in labels]
+    print(temp)
+    return jsonify({'category': temp})
 
 if __name__ == '__main__':
     app.run(debug=True)

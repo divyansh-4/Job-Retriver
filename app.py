@@ -146,7 +146,7 @@ def predict():
     for t2 in temp:
         temp2.append(t2[0])
     print(temp2)
-    api = ReedAPI('1af27b9a-5f60-4961-9643-8e7779c50109')
+    api = ReedAPI('API KEY HERE')
     jobs_dict = {}
 
     for keyword in temp2:

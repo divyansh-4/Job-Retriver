@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {result} from '../temp-data'
 
 const FileUpload = () => {
 
@@ -16,10 +17,13 @@ const FileUpload = () => {
             formData.append('resume', resume);
 
             try {
-                const res = await axios.post('http://localhost:5000/predict', formData, {});
-                setResponseData(res.data);
-                console.log(res.data);
-                console.log('File uploaded successfully');
+                // const res = await axios.post('http://localhost:5000/predict', formData, {});
+                // setResponseData(res.data);
+                // console.log(res.data);
+                // console.log('File uploaded successfully');
+
+                // Temporary response data
+                setResponseData(result);
             } catch (error) {
                 console.log(error);
             }
@@ -49,19 +53,23 @@ const FileUpload = () => {
   
 
         {responseData && (
-            <div className="mt-8">
+            <div className="mt-8 flex justify-center items-center">
+            <div>
                 {Object.keys(responseData.result).map((key) => (
-                    <div key={key}>
-                        <h2>{key}</h2>
+                    <div key={key} className="mb-8">
+                        <h2 className="text-lg font-semibold mb-4 dark:text-blue-400">{key}</h2>
                         {responseData.result[key].map((value) => (
-                            <div key={value['Job Id']}>
-                                <h3>{value['Job Title']}</h3>
-                                <a href={value['Job Description']}>Job Description</a>
+                            <div key={value['Job Id']} className="mb-4">
+                                <h3 className="text-base font-semibold mb-2">{value['Job Title']}</h3>
+                                <p className="text-sm mb-2">{value['Job Description']}</p>
+                                <a href={value['Job Description']} className="text-blue-600 hover:underline">View Job Description</a>
                             </div>
                         ))}
                     </div>
                 ))}
             </div>
+        </div>
+        
         )}
         </div>
     );

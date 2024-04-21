@@ -52,8 +52,7 @@ const Optimise = () => {
 
         {/* <input type="file" onChange={handleFileChange} accept='.pdf'/>
         <button onClick={handleUpload}>Optimise Resume</button> */}
-        <div>
-            
+        <div className='m-10'>
             <ReactMarkdown>{markdownContent}</ReactMarkdown>
         </div>
       </div>

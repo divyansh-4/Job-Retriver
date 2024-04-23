@@ -1,4 +1,4 @@
-##PPT : https://tome.app/hackathons/job-retriever-model-matching-resumes-with-job-openings-clubqfxfi06sdo65zcl0gl5lz
+## PPT : https://tome.app/hackathons/job-retriever-model-matching-resumes-with-job-openings-clubqfxfi06sdo65zcl0gl5lz
 
 ### Setting up Backend
 

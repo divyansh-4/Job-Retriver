@@ -17,13 +17,13 @@ const FileUpload = () => {
             formData.append('resume', resume);
 
             try {
-                // const res = await axios.post('http://localhost:5000/predict', formData, {});
-                // setResponseData(res.data);
-                // console.log(res.data);
-                // console.log('File uploaded successfully');
+                const res = await axios.post('http://localhost:5000/predict', formData, {});
+                setResponseData(res.data);
+                console.log(res.data);
+                console.log('File uploaded successfully');
 
                 // Temporary response data
-                setResponseData(result);
+                // setResponseData(result);
             } catch (error) {
                 console.log(error);
             }
